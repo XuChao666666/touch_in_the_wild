@@ -167,11 +167,11 @@ Refer to the [UMI Hardware Guide](https://github.com/real-stanford/universal_man
 #### Install the xArm Python SDK
 
 ```bash
-# From the repository root
-cd ..
-git clone https://github.com/xArm-Developer/xArm-Python-SDK.git
-cd xArm-Python-SDK
-pip install .
+# From outside the repository
+(touchwild)$ cd ..
+(touchwild)$ git clone https://github.com/xArm-Developer/xArm-Python-SDK.git
+(touchwild)$ cd xArm-Python-SDK
+(touchwild)$ pip install .
 ```
 
 #### Launch uFactory Studio
