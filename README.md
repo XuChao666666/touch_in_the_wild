@@ -1,6 +1,6 @@
 # Touch in the Wild: Learning Fine‑Grained Manipulation with a Portable Visuo‑Tactile Gripper
 
-[\[Project page\]](https://binghao-huang.github.io/touch_in_the_wild/) · [\[Paper\]](https://binghao-huang.github.io/touch_in_the_wild/) · [\[ROS2 & Data Collection Tutorial\]](https://github.com/YolandaXinyueZhu/TactileUMI_ros2) 
+[\[Project page\]](https://binghao-huang.github.io/touch_in_the_wild/) · [\[Paper\]](https://binghao-huang.github.io/touch_in_the_wild/) · [\[ROS2 & Data Collection Tutorial\]](https://github.com/YolandaXinyueZhu/touch_in_the_wild-data-collection) 
 
 <img width="90%" src="assets/teaser.png"></p>
 
