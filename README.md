@@ -202,7 +202,13 @@ sudo chmod -R 777 /dev/bus/usb
 
 # Evaluate a checkpoint
 (touchwild)$ python eval_real.py --robot_config example/eval_robots_config.yaml -i /path/to/policy_checkpoint.ckpt -o /path/to/output_folder
+
 ```
+## 🖐️ Related Works
+
+3D-ViTac: Learning Fine-Grained Manipulation with Visuo-Tactile Sensing. [link](https://binghao-huang.github.io/3D-ViTac/).
+
+VT-Refine: Learning Bimanual Assembly with Visuo-Tactile Feedback via Simulation Fine-Tuning. [link](https://binghao-huang.github.io/vt_refine/)
 
 
 ## 🏷️ License
@@ -217,8 +223,4 @@ Our Visuo-Tactile Gripper builds upon [UMI Gripper](https://umi-gripper.github.i
 
 The gripper’s mechanical design is adapted from the [Push/Pull Gripper](https://www.thingiverse.com/thing:2204113) by [John Mulac](https://www.thingiverse.com/3dprintingworld/designs), and the soft finger from an original design by [Alex Alspach](http://alexalspach.com/) at TRI. The GoPro installation frame on robot side is adapted from [Fast-UMI](https://arxiv.org/abs/2409.19499).
 
-## 🙏 Related Works
 
-3D-ViTac: Learning Fine-Grained Manipulation with Visuo-Tactile Sensing. [link](https://binghao-huang.github.io/3D-ViTac/).
-
-VT-Refine: Learning Bimanual Assembly with Visuo-Tactile Feedback via Simulation Fine-Tuning. [link](https://binghao-huang.github.io/vt_refine/)
