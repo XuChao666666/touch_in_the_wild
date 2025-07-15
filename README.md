@@ -216,3 +216,9 @@ This project is released under the **MIT License**. See [LICENSE](LICENSE) for d
 Our Visuo-Tactile Gripper builds upon [UMI Gripper](https://umi-gripper.github.io/umi.pdf). The SLAM pipeline builds upon [Steffen Urban](https://github.com/urbste)’s fork of [ORB\_SLAM3](https://github.com/UZ-SLAMLab/ORB_SLAM3) and his [OpenImuCameraCalibrator](https://github.com/urbste/OpenImuCameraCalibrator/).
 
 The gripper’s mechanical design is adapted from the [Push/Pull Gripper](https://www.thingiverse.com/thing:2204113) by [John Mulac](https://www.thingiverse.com/3dprintingworld/designs), and the soft finger from an original design by [Alex Alspach](http://alexalspach.com/) at TRI. The GoPro installation frame on robot side is adapted from [Fast-UMI](https://arxiv.org/abs/2409.19499).
+
+## 🙏 Related Works
+
+3D-ViTac: Learning Fine-Grained Manipulation with Visuo-Tactile Sensing. [link](https://binghao-huang.github.io/3D-ViTac/).
+
+VT-Refine: Learning Bimanual Assembly with Visuo-Tactile Feedback via Simulation Fine-Tuning. [link](https://binghao-huang.github.io/vt_refine/)
