@@ -215,7 +215,6 @@ VT-Refine: Learning Bimanual Assembly with Visuo-Tactile Feedback via Simulation
 
 This project is released under the **MIT License**. See [LICENSE](LICENSE) for details.
 
----
 
 ## 🙏 Acknowledgements
 
