@@ -31,7 +31,7 @@
 The SLAM pipeline aligns GoPro videos with tactile logs and produces a time‑synchronised dataset.
 
 1. **Collect data**
-   Follow the [Touch‑in‑the‑Wild ROS 2 Guide](https://github.com/YolandaXinyueZhu/TactileUMI_ros2) to record GoPro streams **plus** tactile JSON logs.
+   Follow the [Touch‑in‑the‑Wild ROS 2 Guide](https://github.com/YolandaXinyueZhu/touch_in_the_wild-data-collection) to record GoPro streams **plus** tactile JSON logs.
    For detailed instructions on collecting demonstrations with the UMI gripper, see the [Data Collection Tutorial](https://swanky-sphere-ad1.notion.site/UMI-Data-Collection-Tutorial-4db1a1f0f2aa4a2e84d9742720428b4c?pvs=4).
 2. **Organise files**
     Collect **all** videos recorded during the session—including
