@@ -37,6 +37,7 @@ import click
               help="Threshold for black frame detection.")
 def main(session_dir, bag, calibration_dir, plot_video, plot_images,
          cut_delay, qr_latency, black_threshold):
+    # 初始化路径设置
     script_dir = pathlib.Path(__file__).parent.joinpath('scripts_slam_pipeline')
 
     if calibration_dir:
@@ -48,6 +49,7 @@ def main(session_dir, bag, calibration_dir, plot_video, plot_images,
     camera_intrinsics = calib_dir.joinpath('gopro_intrinsics_2_7k.json')
     aruco_config = calib_dir.joinpath('aruco_config.yaml')
 
+    # 会话目录遍历
     for session in session_dir:
         sdir = pathlib.Path(os.path.expanduser(session)).absolute()
         demos_dir = sdir.joinpath('demos')
@@ -73,32 +75,45 @@ def main(session_dir, bag, calibration_dir, plot_video, plot_images,
         cut_script = script_dir.joinpath('02_cut_and_match.py')
         assert cut_script.is_file(), f"{cut_script} not found!"
         # Collect videos to process
-        videos_to_process = []
-        if demos_dir.is_dir():
+        videos_to_process = []  # 初始化待处理视频列表 
+        if demos_dir.is_dir():  # 检查demos目录是否存在
+            # 遍历demos目录下的所有子目录（按名称排序）
             for sub in sorted(demos_dir.iterdir()):
+                # 跳过非目录或不以'demo'开头的子目录
                 if not sub.is_dir() or not sub.name.startswith('demo'):
                     continue
+                # 构建视频文件路径和触觉数据文件路径
                 vid = sub.joinpath('raw_video.mp4')
                 tactile_npy = sub.joinpath('tactile.npy')
                 if vid.exists() and not tactile_npy.exists():
                     videos_to_process.append(str(vid))
+        # 如果没有视频，输出提示信息并跳过此步骤
         if not videos_to_process:
             click.echo("No raw_video.mp4 files to process. Skipping cut & match.")
         else:
+            # 构建命令参数列表，准备执行02_cut_and_match.py 脚本 
             cmd = [
-                sys.executable, str(cut_script),
-                '--bag', str(bag),
-                '--cut_delay', str(cut_delay),
-                '--qr_latency', str(qr_latency),
-                '--black_threshold', str(black_threshold)
+                sys.executable, str(cut_script),    # 使用当前Python解释器执行脚本
+                '--bag', str(bag),                  # 添加bag文件参数 
+                '--cut_delay', str(cut_delay),      # 添加cut_delay参数 
+                '--qr_latency', str(qr_latency),    # 添加qr_latency参数
+                '--black_threshold', str(black_threshold)   # 添加black_threshold参数
             ]
+
+            # 根据条件添加可选参数
             if plot_video:
-                cmd.append('--plot_video')
+                cmd.append('--plot_video')  # 如果需要绘制视频，添加plot_video标志
             if plot_images:
-                cmd.append('--plot_images')
+                cmd.append('--plot_images') # 如果需要绘制图像，添加plot_images标志 
+            
+            # 添加视频处理标志
             cmd.append('--video')
+            # 将所有待处理视频路径添加到命令参数中 
             cmd.extend(videos_to_process)
+
+            # 输出将要处理的视频数量
             click.echo(f"Running single cut & match for {len(videos_to_process)} videos")
+            # 执行命令，check=True表示如果命令返回非零状态码将抛出异常
             subprocess.run(cmd, check=True)
 
         # Step 3: Create map

@@ -3,7 +3,7 @@
 Merge tactile (left + right) and camera data with absolute times using efficient binary search,
 but process multiple videos in parallel.
 """
-
+# 和scripts_real中的cut_and_match.py的区别没有
 import cv2
 import numpy as np
 import os

@@ -1,5 +1,9 @@
 """
-python scripts_slam_pipeline/00_process_videos.py -i data_workspace/toss_objects/20231113/mapping
+python scripts_slam_pipeline/00_process_videos.py -i data_workspace/toss_objects/20231113/mapping、
+这段代码与UMI 的02_create_map.py存在差距包括：
+    1、docker 的镜像
+    2、docker 命令权限
+    3、mirror 的参数；因为touch in the wild中没有镜子，所以mirror = False，如果我要是用自己的夹具，就必须要改成True。
 """
 
 # %%

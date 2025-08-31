@@ -6,6 +6,12 @@ ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(ROOT_DIR)
 os.chdir(ROOT_DIR)
 
+"""
+与原UMI的区别是：
+    1、本段代码包含对触觉数据的处理；
+    2、本代码保留镜面区域，而我要用的话肯定要修改为掩盖掉镜面区域；
+    3、这里也没有掩盖夹爪，UMI中掩盖了。
+"""
 # %%
 import json
 import pathlib

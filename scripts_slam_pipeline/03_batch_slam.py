@@ -1,5 +1,10 @@
 """
 python scripts_slam_pipeline/03_batch_slam.py -i data_workspace/fold_cloth_20231214/demos
+和原版UMI的区别：
+    1、docker镜像的区别
+    2、Docker命令权限
+    3、SLAM掩码参数：mirror = False 和 mirror = True；因为touch in the wild中没有用镜子，所以用mirror = False；我如果用我的夹具就必须要更换为mirror = True
+    4、最大丢失帧数：max_lost_frames = 500；但是原UMI的max_lost_frames = 60
 """
 # %%
 import sys

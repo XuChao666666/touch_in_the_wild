@@ -6,6 +6,14 @@ Vision + tactile only: no metadata, tag-detection, or trajectory files required.
 All optional data are replaced with obvious PLACEHOLDER defaults.  A thread lock
 prevents writes while flushing to disk. 
 """
+
+"""
+    仅需 视觉（视频） + 触觉（tactile.npy ） 两种数据;
+    无需其他文件：元数据（metadata）、标签检测文件（tag-detection）、轨迹文件（trajectory）均非必需;
+    所有可选数据若缺失，会自动填充为显式的 "PLACEHOLDER"（占位符） 默认值;
+    通过 线程锁（thread lock） 确保数据写入磁盘时不会被其他操作中断避免因并发写入导致的数据损坏;
+"""
+import sys
 import zipfile
 import os
 import json
@@ -43,6 +51,41 @@ register_codecs()
 # ---------------------------------------------------------------------- #
 #                                CLI                                     #
 # ---------------------------------------------------------------------- #
+"""
+    代码功能总结：
+        多模态数据集预处理流水线，主要功能是将包含视觉（视频）+ 触觉数据的原始演示（demos）转换为标准化、压缩存储的 Zarr 格式数据集。
+        （1）数据输入与校验：
+            输入类型：
+                必须：视频文件（raw_video.mp4 ）+ 触觉数据（tactile.npy ）
+                可选：标签检测文件（自动填充为 PLACEHOLDER）、相机标定文件（gopro_intrinsics_2_7k.json ）
+        （2）数据处理与转换
+            视觉数据
+                视频帧提取 + 分辨率统一（out_res，如 224x224）
+                鱼眼矫正（可选 out_fov 参数）
+                镜像处理（mirror_swap 标志控制左右翻转）
+                掩码绘制（遮盖无效区域，如夹爪/手指）
+            触觉数据
+                从 tactile.npy 加载并转换为 float32 格式
+                严格对齐视频帧范围（frame_start 到 frame_end）
+        （3）高效存储
+            Zarr 压缩存储
+                视觉数据：JPEG-XL 压缩（可调 compression_level）
+                触觉数据：无压缩原始存储
+                分块（chunk）优化（单帧为最小存储单元）
+            线程安全写入
+                通过 threading.RLock() 避免并发冲突
+                支持增量保存（每处理 100 个视频自动保存进度）
+        （4）并行化处理
+            多线程加速
+                使用 ThreadPoolExecutor 并行处理多个视频文件
+                动态分配工作线程（num_workers 默认为 CPU 核心数）
+        输出结构：
+                数据组名称	             内容描述	                  格式
+            camera{cam_id}_rgb	    处理后的视频帧（HWC 格式）	uint8 + JPEG-XL 压缩
+            camera{cam_id}_tactile	触觉传感器数据	          float32
+
+
+"""
 @click.command()
 @click.argument('input', nargs=-1)
 @click.option('-o', '--output', required=True, help='Zarr path')

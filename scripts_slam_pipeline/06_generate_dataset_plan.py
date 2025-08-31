@@ -76,21 +76,39 @@ def get_x_projection(tx_tag_this, tx_tag_other):
     proj_other_right = np.sum(v_this_right * t_this_other, axis=-1)
     return proj_other_right
 
-
+"""
+    函数功能：将SLAM系统的输出gripper的宽度线性映射到xArm的控制范围，同时包含了边界限制，确保输入值在有效范围内；
+    输入：SLAM输出的宽度；SLAM最大宽度和最小宽度；
+    输出：映射到xArm下的结果；
+    个人猜测：SLAM下的宽度应该是米为单位；xArm下的应该是cm为单位；
+    所以这里映射一下，单纯从数值来讲，差距并不大；
+"""
 def slam_to_xarm(width, SLAM_MAX_WIDTH, SLAM_MIN_WIDTH):
     """
     Linearly map a raw (SLAM) gripper width in [0.081, 0.168]
     to xArm control range [-0.01, 0.842].
     Clamps width to [SLAM_GRIPPER_MIN, SLAM_GRIPPER_MAX].
     """
-    XARM_GRIPPER_MIN = -0.01
-    XARM_GRIPPER_MAX = 0.800
+    XARM_GRIPPER_MIN = -0.01    # XARM夹爪的宽度最小值
+    XARM_GRIPPER_MAX = 0.800    # XARM夹爪的宽度最大值
 
-    w = max(SLAM_MIN_WIDTH, min(SLAM_MAX_WIDTH, width))
+    w = max(SLAM_MIN_WIDTH, min(SLAM_MAX_WIDTH, width)) # 确保width在SLAM_MIN 和 SLAM_MAX中
     # Linear interpolation formula
     return ((w - SLAM_MIN_WIDTH) / (SLAM_MAX_WIDTH - SLAM_MIN_WIDTH)) \
            * (XARM_GRIPPER_MAX - XARM_GRIPPER_MIN) + XARM_GRIPPER_MIN
-
+"""
+    与UMI的差别：
+        1、输入参数tcp_offset：这里的值是0.171，UMI是0.205，我应该也是要用0.205
+        2、多出一个slam_to_xarm函数，这里需要和UMI做一个详细比对；
+        3、文件注释头：#!/usr/bin/env python3  很多文件都有这个头，作者这里是强制使用系统的python解释器，但是我这里应该会使用虚拟环境的python解释器，所以这里必须要修改的。
+        4、cam_to_center_height不同，UMI中该值为0.086；这里是0.082；还是要做一些调整的；
+        5、这里从original_raw_video.mp4中读取，而UMI中读取的文件是raw_video.mp4 
+        6、touch中继承之前的tcp_offset=0.171；UMI中继承之前的0.205
+        7、这里gripper_vid_idxs = [] 和 pose_interps = []；UMI中是gripper_vid_idxs = list() 和 pose_interps = list()
+        8、夹爪宽度计算方法：这里使用slam_to_xarm();UMI中使用校准插值器gripper_cal_interp(width)；这里要做一下区别；
+        9、初始化列表：touch中初始化用的[],UMI中用的是list（）；（区别：[]只可以定义列表；list（）可以将其他任何形式转换为列表，例如元组）
+        10、
+"""
 # %%
 @click.command()
 @click.option('-i', '--input', required=True, help='Project directory')

@@ -2,6 +2,7 @@
 import sys
 import os
 
+# 初始设置，切换路径到根目录
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(ROOT_DIR)
 os.chdir(ROOT_DIR)
@@ -24,11 +25,13 @@ def main(session_dir):
         output_dir = session.joinpath('demos')
         
         # create raw_videos if don't exist
+        # 处理raw_videos 目录
         if not input_dir.is_dir():
             input_dir.mkdir()
             print(f"{input_dir.name} subdir don't exits! Creating one and moving all mp4 videos inside.")
             for mp4_path in list(session.glob('**/*.MP4')) + list(session.glob('**/*.mp4')):
-                # Skip overlay videos
+                # Skip overlay videos 
+                # 跳过叠加视频
                 if 'overlay' in mp4_path.name.lower():
                     print(f"Skipping overlay video: {mp4_path.name}")
                     continue
@@ -37,6 +40,7 @@ def main(session_dir):
                 shutil.move(mp4_path, out_path)
         
         # create mapping video if don't exist
+        # 选择最大的MP4文件作为mapping.mp4
         mapping_vid_path = input_dir.joinpath('mapping.mp4')
         if (not mapping_vid_path.exists()) and not(mapping_vid_path.is_symlink()):
             max_size = -1
@@ -55,6 +59,7 @@ def main(session_dir):
             print(f"raw_videos/mapping.mp4 don't exist! Renaming largest file {max_path.name}.")
         
         # create gripper calibration video if don't exist
+        # 夹爪校准可能需要每个相机的最初录制视频
         gripper_cal_dir = input_dir.joinpath('gripper_calibration')
         if not gripper_cal_dir.is_dir():
             gripper_cal_dir.mkdir()
@@ -96,6 +101,7 @@ def main(session_dir):
                 shutil.move(path, out_path)
 
         # look for mp4 video in all subdirectories in input_dir
+        # 
         input_mp4_paths = list(input_dir.glob('**/*.MP4')) + list(input_dir.glob('**/*.mp4'))
         print(f'Found {len(input_mp4_paths)} MP4 videos')
 
@@ -135,7 +141,7 @@ def main(session_dir):
                 rel_path = str(out_video_path.relative_to(session))
                 symlink_path = os.path.join(dots, rel_path)                
                 mp4_path.symlink_to(symlink_path)
-
+# 只处理视频文件，并没有涉及处理JSON文件
 # %%
 if __name__ == '__main__':
     if len(sys.argv) == 1:

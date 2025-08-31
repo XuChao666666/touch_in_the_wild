@@ -17,6 +17,7 @@ import multiprocessing
 import concurrent.futures
 from tqdm import tqdm
 
+# 这段代码和UMI中的01_extract_gopro_imu.py没有区别
 # %%
 @click.command()
 @click.option('-d', '--docker_image', default="chicheng/openicc:latest")

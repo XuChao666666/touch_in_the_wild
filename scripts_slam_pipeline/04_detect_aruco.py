@@ -3,6 +3,16 @@ python scripts_slam_pipeline/04_detect_aruco.py \
 -i data_workspace/cup_in_the_wild/20240105_zhenjia_packard_2nd_conference_room/demos \
 -ci data_workspace/toss_objects/20231113/calibration/gopro_intrinsics_2_7k.json \
 -ac data_workspace/toss_objects/20231113/calibration/aruco_config.yaml
+
+和原UMI的差别在capture_output的值。touch中的capture_output=False；而UMI中是True；
+区别在于：
+    capture_output=False：子进程（detect_aruco.py ）的输出（stdout/stderr）直接打印到终端。
+        优势：实时看到检测进度和错误信息，便于调试。
+        风险：多进程并行时输出可能交错混乱。
+
+    capture_output=True：子进程的输出被捕获到subprocess.CompletedProcess对象中，最终通过x.result() 统一打印。
+        优势：输出整洁，避免多进程打印冲突。
+        风险：若子进程卡死，可能无法实时发现问题。
 """
 # %%
 import sys
